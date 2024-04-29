@@ -14,7 +14,7 @@ class VinylController extends AbstractController
 {
     public function __construct(
         private bool $isDebug,
-        private VinillMixRepository $mixRepository
+        private VinylMixRepository $mixRepository
     ) {
     }
 
@@ -41,7 +41,7 @@ class VinylController extends AbstractController
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
 
-        $mixes = $mixRepository->findBy([], ['votes' => 'DESC']);
+        $mixes = $mixRepository->findAllOrderedByVotes();
         return $this->render('vinyl/browse.html.twig', [
             'genre' => $genre,
             'mixes' => $mixes,
