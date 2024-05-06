@@ -1,15 +1,13 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\VinylMix;
+use App\Repository\VinylMixRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-class MixController extends AbstractController
-{
+class MixController extends AbstractController{
     #[Route('/mix/new')]
     public function new(EntityManagerInterface $entityManager): Response
     {
@@ -27,5 +25,13 @@ class MixController extends AbstractController
             $mix->getId(),
             $mix->getTrackCount()
         ));
+    }
+    #[Route('/mix/{id}', name: 'app_mix_show')]
+    public function show($id, VinylMixRepository $mixRepository): Response
+     {
+        $mix = $mixRepository->find($id);
+        return $this->render('mix/show.html.twig', [
+            'mix' => $mix,
+        ]);
     }
 }
